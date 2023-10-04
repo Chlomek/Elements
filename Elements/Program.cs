@@ -10,21 +10,34 @@ namespace Elements
     {
         static void Main(string[] args)
         {
-            int numberOfQuestions = 25;
+            //Vybrání počtu otázek
+            Console.WriteLine("Vyberte počet otázek (zadejte pouze číslice)");
+            Console.WriteLine(" - 15");
+            Console.WriteLine(" - 25");
+            Console.WriteLine(" - 40");
+            Console.WriteLine(" - jiný počet");
+
+            int numberOfQuestions = 0;
+            numberOfQuestions = Int32.Parse(Console.ReadLine());
+
+            //Inicializace proměnných
             Random rnd = new Random();
-            Console.WriteLine("Chcete použít i pokročilé prvky? (ano/ne)");
-            string usageOfOptional = Console.ReadLine();
             int correctAnsweredQuestions = 0;
+            string answerVariant;
+
             string[] optionalElement = { "Rubidium", "Stroncium", "Indium", "Bismut", "Polonium", "Baryum", "Thallium", "Cesium", "Radon", "Francium", "Radium", "Nihonium", "Flerovium", "Moscovium", "Livermorium", "Tennessin", "Oganesson", };
             string[] elementName = { "Vodík", "Helium", "Lithium", "Beryllium", "Bor", "Uhlík", "Dusík", "Kyslík", "Fluor", "Neon", "Sodík", "Hořčík", "Hliník", "Křemík", "Fosfor", "Síra", "Chlor", "Argon", "Draslík", "Vápník", "Gallium", "Germanium", "Arsen", "Selen", "Brom", "Krypton", "Cín", "Antimon", "Tellur", "Jod", "Xenon", "Olovo", "Astat", "Železo", "Kobalt", "Nikl", "Měď", "Stříbro", "Zlato", };
 
+            //Výběr základní nebo rozšířené varianty
+            Console.WriteLine("Chcete použít i pokročilé prvky? (ano/ne)");
+            string usageOfOptional = Console.ReadLine();
 
             for (int i = 0; i <= numberOfQuestions; i++)
             {
                 int rnd1;
-                
-                if (usageOfOptional.ToLower() == "ano")
-                { 
+
+                if (usageOfOptional.ToLower() == "ano" || usageOfOptional.ToLower() == "a")
+                {
                     elementName = elementName.Concat(optionalElement).ToArray();
                     rnd1 = rnd.Next(0, 56);
                 }
@@ -33,12 +46,15 @@ namespace Elements
                     rnd1 = rnd.Next(0, 39);
                 }
 
+                //Výběr prvku a vypsání
                 string currentElement = elementName[rnd1];
+                answerVariant = "<.|.>";
 
-                switch(currentElement)
+                switch (currentElement)
                 {
                     case ("Vodík"):
                         Console.WriteLine("Zadejte název prvku H");
+                        answerVariant = "vodik";
                         break;
                     case ("Helium"):
                         Console.WriteLine("Zadejte název prvku He");
@@ -54,12 +70,15 @@ namespace Elements
                         break;
                     case ("Uhlík"):
                         Console.WriteLine("Zadejte název prvku C");
+                        answerVariant = "uhlik";
                         break;
                     case ("Dusík"):
                         Console.WriteLine("Zadejte název prvku N");
+                        answerVariant = "dusik";
                         break;
                     case ("Kyslík"):
                         Console.WriteLine("Zadejte název prvku O");
+                        answerVariant = "kyslik";
                         break;
                     case ("Fluor"):
                         Console.WriteLine("Zadejte název prvku F");
@@ -69,21 +88,26 @@ namespace Elements
                         break;
                     case ("Sodík"):
                         Console.WriteLine("Zadejte název prvku Na");
+                        answerVariant = "sodik";
                         break;
                     case ("Hořčík"):
                         Console.WriteLine("Zadejte název prvku Mg");
+                        answerVariant = "horcik";
                         break;
                     case ("Hliník"):
                         Console.WriteLine("Zadejte název prvku Al");
+                        answerVariant = "hlinik";
                         break;
                     case ("Křemík"):
                         Console.WriteLine("Zadejte název prvku Si");
+                        answerVariant = "kremik";
                         break;
                     case ("Fosfor"):
                         Console.WriteLine("Zadejte název prvku P");
                         break;
                     case ("Síra"):
                         Console.WriteLine("Zadejte název prvku S");
+                        answerVariant = "sira";
                         break;
                     case ("Chlor"):
                         Console.WriteLine("Zadejte název prvku Cl");
@@ -93,9 +117,11 @@ namespace Elements
                         break;
                     case ("Draslík"):
                         Console.WriteLine("Zadejte název prvku K");
+                        answerVariant = "draslik";
                         break;
                     case ("Vápník"):
                         Console.WriteLine("Zadejte název prvku Ca");
+                        answerVariant = "vapnik";
                         break;
                     case ("Gallium"):
                         Console.WriteLine("Zadejte název prvku Ga");
@@ -125,7 +151,8 @@ namespace Elements
                         Console.WriteLine("Zadejte název prvku In");
                         break;
                     case ("Cín"):
-                        Console.WriteLine("Zadejte název prvku Sn"); 
+                        Console.WriteLine("Zadejte název prvku Sn");
+                        answerVariant = "cin";
                         break;
                     case ("Antimon"):
                         Console.WriteLine("Zadejte název prvku Sb");
@@ -189,6 +216,7 @@ namespace Elements
                         break;
                     case ("Železo"):
                         Console.WriteLine("Zadejte název prvku Fe");
+                        answerVariant = "zelezo";
                         break;
                     case ("Kobalt"):
                         Console.WriteLine("Zadejte název prvku Co");
@@ -198,16 +226,20 @@ namespace Elements
                         break;
                     case ("Měď"):
                         Console.WriteLine("Zadejte název prvku Cu");
+                        answerVariant = "med";
                         break;
                     case ("Stříbro"):
                         Console.WriteLine("Zadejte název prvku Ag");
+                        answerVariant = "stribro";
                         break;
                     case ("Zlato"):
                         Console.WriteLine("Zadejte název prvku Au");
                         break;
                 }
+
+                //Kontrola odpovědi
                 string answer = Console.ReadLine();
-                if( answer.ToLower() == currentElement.ToLower())
+                if (answer.ToLower() == currentElement.ToLower() || answer.ToLower() == answerVariant)
                 {
                     Console.WriteLine("Správně!");
                     correctAnsweredQuestions++;
