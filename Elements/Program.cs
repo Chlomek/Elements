@@ -14,14 +14,16 @@ namespace Elements
             Random rnd = new Random();
             Console.WriteLine("Chcete použít i pokročilé prvky? (ano/ne)");
             string usageOfOptional = Console.ReadLine();
+            int correctAnsweredQuestions = 0;
+            string[] optionalElement = { "Rubidium", "Stroncium", "Indium", "Bismut", "Polonium", "Baryum", "Thallium", "Cesium", "Radon", "Francium", "Radium", "Nihonium", "Flerovium", "Moscovium", "Livermorium", "Tennessin", "Oganesson", };
+            string[] elementName = { "Vodík", "Helium", "Lithium", "Beryllium", "Bor", "Uhlík", "Dusík", "Kyslík", "Fluor", "Neon", "Sodík", "Hořčík", "Hliník", "Křemík", "Fosfor", "Síra", "Chlor", "Argon", "Draslík", "Vápník", "Gallium", "Germanium", "Arsen", "Selen", "Brom", "Krypton", "Cín", "Antimon", "Tellur", "Jod", "Xenon", "Olovo", "Astat", "Železo", "Kobalt", "Nikl", "Měď", "Stříbro", "Zlato", };
+
 
             for (int i = 0; i <= numberOfQuestions; i++)
             {
                 int rnd1;
-                string[] optionalElement = { "Rubidium", "Stroncium", "Indium", "Bismut", "Polonium", "Baryum", "Thallium", "Cesium", "Radon", "Francium", "Radium", "Nihonium", "Flerovium", "Moscovium", "Livermorium", "Tennessin", "Oganesson", };
-                string[] elementName = { "Vodík", "Helium", "Lithium", "Beryllium", "Bor", "Uhlík", "Dusík", "Kyslík", "Fluor", "Neon", "Sodík", "Hořčík", "Hliník", "Křemík", "Fosfor", "Síra", "Chlor", "Argon", "Draslík", "Vápník", "Gallium", "Germanium", "Arsen", "Selen", "Brom", "Krypton", "Cín", "Antimon", "Tellur", "Jod", "Xenon",   "Olovo", "Astat",  "Železo", "Kobalt", "Nikl", "Měď", "Stříbro", "Zlato", };
-
-                if (usageOfOptional == "ano")
+                
+                if (usageOfOptional.ToLower() == "ano")
                 { 
                     elementName = elementName.Concat(optionalElement).ToArray();
                     rnd1 = rnd.Next(0, 56);
@@ -208,14 +210,14 @@ namespace Elements
                 if( answer.ToLower() == currentElement.ToLower())
                 {
                     Console.WriteLine("Správně!");
-                    i++;
+                    correctAnsweredQuestions++;
                 }
                 else
                 {
                     Console.WriteLine($"Špatně, byl to {currentElement}");
                 }
             }
-            Console.WriteLine($"Správné odpovědi ");
+            Console.WriteLine($"Správné odpovědi {correctAnsweredQuestions}/{numberOfQuestions}");
             Console.ReadLine();
         }
     }
