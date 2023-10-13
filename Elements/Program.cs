@@ -24,11 +24,10 @@ namespace Elements
                 Random rnd = new Random();
                 int correctAnsweredQuestions = 0;
                 string answerVariant;
-                string[] optionalElement = { "Rubidium", "Stroncium", "Indium", "Bismut", "Polonium", "Baryum", "Thallium", "Cesium", "Radon", "Francium", "Radium", "Nihonium", "Flerovium", "Moscovium", "Livermorium", "Tennessin", "Oganesson", };
-                string[] elementName = { "Vodík", "Helium", "Lithium", "Beryllium", "Bor", "Uhlík", "Dusík", "Kyslík", "Fluor", "Neon", "Sodík", "Hořčík", "Hliník", "Křemík", "Fosfor", "Síra", "Chlor", "Argon", "Draslík", "Vápník", "Gallium", "Germanium", "Arsen", "Selen", "Brom", "Krypton", "Cín", "Antimon", "Tellur", "Jod", "Xenon", "Olovo", "Astat", "Železo", "Kobalt", "Nikl", "Měď", "Stříbro", "Zlato", };
+                string[] optionalElement = { "Rubidium", "Stroncium", "Indium", "Bismut", "Polonium", "Baryum", "Thallium", "Cesium", "Radon", "Francium", "Radium", "Nihonium", "Flerovium", "Moscovium", "Livermorium", "Tennessin", "Oganesson"};
+                string[] elementName = { "Vodík", "Helium", "Lithium", "Beryllium", "Bor", "Uhlík", "Dusík", "Kyslík", "Fluor", "Neon", "Sodík", "Hořčík", "Hliník", "Křemík", "Fosfor", "Síra", "Chlor", "Argon", "Draslík", "Vápník", "Gallium", "Germanium", "Arsen", "Selen", "Brom", "Krypton", "Cín", "Antimon", "Tellur", "Jod", "Xenon", "Olovo", "Astat", "Železo", "Kobalt", "Nikl", "Měď", "Stříbro", "Zlato"};
                 string usageOfOptional;
                 int rnd1;
-                int elementStringLenght = 0;
 
                 do
                 {
@@ -63,13 +62,8 @@ namespace Elements
                         if (usageOfOptional.ToLower() == "ano" || usageOfOptional.ToLower() == "a")
                         {
                             elementName = elementName.Concat(optionalElement).ToArray();
-                            elementStringLenght = 56;
-                            usageOfOptional = "ano";
                         }
-                        else
-                        {
-                            elementStringLenght = 39;
-                        }
+                        
                         //Použití latinských názvů
                         if (gameMode == "1" && reset == false)
                         {
@@ -96,9 +90,9 @@ namespace Elements
 
                         if (int.TryParse(numberOfQuestionsString, out numberOfQuestions))
                         {
-                            if (numberOfQuestions > elementStringLenght)
+                            if (numberOfQuestions >= elementName.Length)
                             {
-                                Console.WriteLine($"Počet otázek musí být menší než {elementStringLenght + 1}");
+                                Console.WriteLine($"Počet otázek musí být menší než {elementName.Length}");
                                 reset = true;
                                 Console.ReadLine();
                             }
@@ -115,11 +109,11 @@ namespace Elements
                 for (int i = 0; i < numberOfQuestions; i++)
                 {
                     //Výběr prvku a vypsání
-                    rnd1 = rnd.Next(0, elementStringLenght - i);
+                    rnd1 = rnd.Next(0, elementName.Length);
                     string currentElement = elementName[rnd1];
-                    answerVariant = "<.|.>";
-                    string element = "<.|.>";
-                    string latin = "<.|.>";
+                    answerVariant = "";
+                    string element = "";
+                    string latin = "";
 
                     elementName = elementName.Where(val => val != currentElement).ToArray();
 
@@ -488,6 +482,10 @@ namespace Elements
                         Console.ReadLine();
                         return;
                     }
+                    //TESTY
+                    //Console.WriteLine($"Zbylo {elementName.Length} prvků");
+
+
                 }
                 //Počet správných odpovědí
                 Console.WriteLine($"Správné odpovědi {correctAnsweredQuestions}/{numberOfQuestions}");
