@@ -10,247 +10,502 @@ namespace Elements
     {
         static void Main(string[] args)
         {
-            //Vybrání počtu otázek
-            Console.WriteLine("Vyberte počet otázek (zadejte pouze číslice)");
-            Console.WriteLine(" - 15");
-            Console.WriteLine(" - 25");
-            Console.WriteLine(" - 40");
-            Console.WriteLine(" - jiný počet");
-
-            int numberOfQuestions = 0;
-            numberOfQuestions = Int32.Parse(Console.ReadLine());
-
-            //Inicializace proměnných
-            Random rnd = new Random();
-            int correctAnsweredQuestions = 0;
-            string answerVariant;
-
-            string[] optionalElement = { "Rubidium", "Stroncium", "Indium", "Bismut", "Polonium", "Baryum", "Thallium", "Cesium", "Radon", "Francium", "Radium", "Nihonium", "Flerovium", "Moscovium", "Livermorium", "Tennessin", "Oganesson", };
-            string[] elementName = { "Vodík", "Helium", "Lithium", "Beryllium", "Bor", "Uhlík", "Dusík", "Kyslík", "Fluor", "Neon", "Sodík", "Hořčík", "Hliník", "Křemík", "Fosfor", "Síra", "Chlor", "Argon", "Draslík", "Vápník", "Gallium", "Germanium", "Arsen", "Selen", "Brom", "Krypton", "Cín", "Antimon", "Tellur", "Jod", "Xenon", "Olovo", "Astat", "Železo", "Kobalt", "Nikl", "Měď", "Stříbro", "Zlato", };
-
-            //Výběr základní nebo rozšířené varianty
-            Console.WriteLine("Chcete použít i pokročilé prvky? (ano/ne)");
-            string usageOfOptional = Console.ReadLine();
-
-            for (int i = 0; i <= numberOfQuestions; i++)
+            bool end = false;
+            do
             {
+
+                string gameMode = "1";
+                int numberOfQuestions = 20;
+                bool latinNames = false;
+                string usageOfLatin = "ne";
+                bool reset = false;
+
+                //Inicializace proměnných
+                Random rnd = new Random();
+                int correctAnsweredQuestions = 0;
+                string answerVariant;
+                string[] optionalElement = { "Rubidium", "Stroncium", "Indium", "Bismut", "Polonium", "Baryum", "Thallium", "Cesium", "Radon", "Francium", "Radium", "Nihonium", "Flerovium", "Moscovium", "Livermorium", "Tennessin", "Oganesson", };
+                string[] elementName = { "Vodík", "Helium", "Lithium", "Beryllium", "Bor", "Uhlík", "Dusík", "Kyslík", "Fluor", "Neon", "Sodík", "Hořčík", "Hliník", "Křemík", "Fosfor", "Síra", "Chlor", "Argon", "Draslík", "Vápník", "Gallium", "Germanium", "Arsen", "Selen", "Brom", "Krypton", "Cín", "Antimon", "Tellur", "Jod", "Xenon", "Olovo", "Astat", "Železo", "Kobalt", "Nikl", "Měď", "Stříbro", "Zlato", };
+                string usageOfOptional;
                 int rnd1;
+                int elementStringLenght = 0;
 
-                if (usageOfOptional.ToLower() == "ano" || usageOfOptional.ToLower() == "a")
+                do
                 {
-                    elementName = elementName.Concat(optionalElement).ToArray();
-                    rnd1 = rnd.Next(0, 56);
+                    reset = false;
+                    Console.Clear();
+
+                    //Výběr herního režimu
+                    Console.WriteLine("Vítejte v programu pro procvičování názvů prvků");
+                    Console.WriteLine("vyberte herní režim");
+                    Console.WriteLine(" - 1) Typování názvů");
+                    Console.WriteLine(" - 2) Typování značek");
+
+                    gameMode = Console.ReadLine();
+
+                    if (gameMode == "1" || gameMode == "2")
+                    {
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Neplatný herní režim");
+                        reset = true;
+                        Console.ReadLine();
+                    }
+
+                    if (reset == false)
+                    {
+                        //Výběr základní nebo rozšířené varianty
+                        Console.WriteLine("Chcete použít i pokročilé prvky? (ano/ne)");
+                        usageOfOptional = Console.ReadLine();
+
+                        if (usageOfOptional.ToLower() == "ano" || usageOfOptional.ToLower() == "a")
+                        {
+                            elementName = elementName.Concat(optionalElement).ToArray();
+                            elementStringLenght = 56;
+                            usageOfOptional = "ano";
+                        }
+                        else
+                        {
+                            elementStringLenght = 39;
+                        }
+                        //Použití latinských názvů
+                        if (gameMode == "1" && reset == false)
+                        {
+                            Console.WriteLine("Chcete použít i latinské názvy? (ano/ne)");
+                            usageOfLatin = Console.ReadLine();
+
+                            if (usageOfLatin.ToLower() == "ano" || usageOfLatin.ToLower() == "a")
+                            {
+                                latinNames = true;
+                            }
+                            else
+                            {
+                                latinNames = false;
+                            }
+                        }
+                        //Vybrání počtu otázek
+                        Console.WriteLine("Vyberte počet otázek (zadejte pouze číslice)");
+                        Console.WriteLine(" - 15");
+                        Console.WriteLine(" - 25");
+                        Console.WriteLine(" - 40");
+                        Console.WriteLine(" - jiný počet");
+
+                        string numberOfQuestionsString = Console.ReadLine();
+
+                        if (int.TryParse(numberOfQuestionsString, out numberOfQuestions))
+                        {
+                            if (numberOfQuestions > elementStringLenght)
+                            {
+                                Console.WriteLine($"Počet otázek musí být menší než {elementStringLenght + 1}");
+                                reset = true;
+                                Console.ReadLine();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Neplatný počet otázek");
+                            reset = true;
+                            Console.ReadLine();
+                        }
+                    }
+                } while (reset == true);
+
+                for (int i = 0; i < numberOfQuestions; i++)
+                {
+                    //Výběr prvku a vypsání
+                    rnd1 = rnd.Next(0, elementStringLenght - i);
+                    string currentElement = elementName[rnd1];
+                    answerVariant = "<.|.>";
+                    string element = "<.|.>";
+                    string latin = "<.|.>";
+
+                    elementName = elementName.Where(val => val != currentElement).ToArray();
+
+                    switch (currentElement)
+                    {
+                        case "Vodík":
+                            element = "H";
+                            answerVariant = "vodik";
+                            latin = "Hydrogenium";
+                            break;
+                        case "Helium":
+                            answerVariant = "helium";
+                            element = "He";
+                            latin = "Helium";
+                            break;
+                        case "Lithium":
+                            answerVariant = "lithium";
+                            element = "Li";
+                            latin = "Lithium";
+                            break;
+                        case "Beryllium":
+                            answerVariant = "berylium";
+                            element = "Be";
+                            latin = "Beryllium";
+                            break;
+                        case "Bor":
+                            answerVariant = "bor";
+                            element = "B";
+                            latin = "Borum";
+                            break;
+                        case "Uhlík":
+                            answerVariant = "uhlik";
+                            element = "C";
+                            latin = "Carboneum";
+                            break;
+                        case "Dusík":
+                            element = "N";
+                            answerVariant = "dusik";
+                            latin = "Nitrogenium";
+                            break;
+                        case "Kyslík":
+                            element = "O";
+                            answerVariant = "kyslik";
+                            latin = "Oxygenium";
+                            break;
+                        case "Fluor":
+                            element = "F";
+                            answerVariant = "fluor";
+                            latin = "Fluorum";
+                            break;
+                        case "Neon":
+                            element = "Ne";
+                            answerVariant = "neon";
+                            latin = "Neon";
+                            break;
+                        case "Sodík":
+                            element = "Na";
+                            answerVariant = "sodik";
+                            latin = "Natrium";
+                            break;
+                        case "Hořčík":
+                            element = "Mg";
+                            answerVariant = "horcik";
+                            latin = "Magnesium";
+                            break;
+                        case "Hliník":
+                            element = "Al";
+                            answerVariant = "hlinik";
+                            latin = "Aluminium";
+                            break;
+                        case "Křemík":
+                            element = "Si";
+                            answerVariant = "kremik";
+                            latin = "Silicium";
+                            break;
+                        case "Fosfor":
+                            element = "P";
+                            answerVariant = "fosfor";
+                            latin = "Phosphorus";
+                            break;
+                        case "Síra":
+                            element = "S";
+                            answerVariant = "sira";
+                            latin = "Sulphur";
+                            break;
+                        case "Chlor":
+                            element = "Cl";
+                            answerVariant = "chlor";
+                            latin = "Chlorum";
+                            break;
+                        case "Argon":
+                            element = "Ar";
+                            answerVariant = "argon";
+                            latin = "Argon";
+                            break;
+                        case "Draslík":
+                            element = "K";
+                            answerVariant = "draslik";
+                            latin = "Kalium";
+                            break;
+                        case "Vápník":
+                            element = "Ca";
+                            answerVariant = "vapnik";
+                            latin = "Calcium";
+                            break;
+                        case "Gallium":
+                            element = "Ga";
+                            answerVariant = "gallium";
+                            latin = "Gallium";
+                            break;
+                        case "Germanium":
+                            element = "Ge";
+                            answerVariant = "germanium";
+                            latin = "Germanium";
+                            break;
+                        case "Arsen":
+                            element = "As";
+                            answerVariant = "arsen";
+                            latin = "Arsenicum";
+                            break;
+                        case "Selen":
+                            element = "Se";
+                            answerVariant = "selen";
+                            latin = "Selenium";
+                            break;
+                        case "Brom":
+                            element = "Br";
+                            answerVariant = "brom";
+                            latin = "Bromum";
+                            break;
+                        case "Krypton":
+                            element = "Kr";
+                            answerVariant = "krypton";
+                            latin = "Krypton";
+                            break;
+                        case "Rubidium":
+                            element = "Rb";
+                            answerVariant = "rubidium";
+                            latin = "Rubidium";
+                            break;
+                        case "Stroncium":
+                            element = "Sr";
+                            answerVariant = "stroncium";
+                            latin = "Strontium";
+                            break;
+                        case "Indium":
+                            element = "In";
+                            answerVariant = "indium";
+                            latin = "Indium";
+                            break;
+                        case "Cín":
+                            element = "Sn";
+                            answerVariant = "cin";
+                            latin = "Stannum";
+                            break;
+                        case "Antimon":
+                            element = "Sb";
+                            answerVariant = "antimon";
+                            latin = "Stibium";
+                            break;
+                        case "Tellur":
+                            element = "Te";
+                            answerVariant = "tellur";
+                            latin = "Tellurium";
+                            break;
+                        case "Jod":
+                            element = "I";
+                            answerVariant = "jod";
+                            latin = "Iodium";
+                            break;
+                        case "Xenon":
+                            element = "Xe";
+                            answerVariant = "xenon";
+                            latin = "Xenon";
+                            break;
+                        case "Cesium":
+                            element = "Cs";
+                            answerVariant = "cesium";
+                            latin = "Caesium";
+                            break;
+                        case "Baryum":
+                            element = "Ba";
+                            answerVariant = "baryum";
+                            latin = "Barium";
+                            break;
+                        case "Thallium":
+                            element = "Tl";
+                            answerVariant = "thallium";
+                            latin = "Thallium";
+                            break;
+                        case "Olovo":
+                            element = "Pb";
+                            answerVariant = "olovo";
+                            latin = "Plumbum";
+                            break;
+                        case "Bismut":
+                            element = "Bi";
+                            answerVariant = "bismut";
+                            latin = "Bismutum";
+                            break;
+                        case "Polonium":
+                            element = "Po";
+                            answerVariant = "polonium";
+                            latin = "Polonium";
+                            break;
+                        case "Astat":
+                            element = "At";
+                            answerVariant = "astat";
+                            latin = "Astatium";
+                            break;
+                        case "Radon":
+                            element = "Rn";
+                            answerVariant = "radon";
+                            latin = "Radon";
+                            break;
+                        case "Francium":
+                            element = "Fr";
+                            answerVariant = "francium";
+                            latin = "Francium";
+                            break;
+                        case "Radium":
+                            element = "Ra";
+                            answerVariant = "radium";
+                            latin = "Radium";
+                            break;
+                        case "Nihonium":
+                            element = "Nh";
+                            answerVariant = "nihonium";
+                            latin = "Nihonium";
+                            break;
+                        case "Flerovium":
+                            element = "Fl";
+                            answerVariant = "flerovium";
+                            latin = "Flerovium";
+                            break;
+                        case "Moscovium":
+                            element = "Mc";
+                            answerVariant = "moscovium";
+                            latin = "Moscovium";
+                            break;
+                        case "Livermorium":
+                            element = "Lv";
+                            answerVariant = "livermorium";
+                            latin = "Livermorium";
+                            break;
+                        case "Tennessin":
+                            element = "Ts";
+                            answerVariant = "tennessin";
+                            latin = "Tennessin";
+                            break;
+                        case "Oganesson":
+                            element = "Og";
+                            answerVariant = "oganesson";
+                            latin = "Oganesson";
+                            break;
+                        case "Železo":
+                            element = "Fe";
+                            answerVariant = "zelezo";
+                            latin = "Ferrum";
+                            break;
+                        case "Kobalt":
+                            element = "Co";
+                            answerVariant = "kobalt";
+                            latin = "Cobaltum";
+                            break;
+                        case "Nikl":
+                            element = "Ni";
+                            answerVariant = "nikl";
+                            latin = "Niccolum";
+                            break;
+                        case "Měď":
+                            element = "Cu";
+                            answerVariant = "med";
+                            latin = "Cuprum";
+                            break;
+                        case "Stříbro":
+                            element = "Ag";
+                            answerVariant = "stribro";
+                            latin = "Argentum";
+                            break;
+                        case "Zlato":
+                            element = "Au";
+                            answerVariant = "zlato";
+                            latin = "Aurum";
+                            break;
+                    }
+
+                    if (latinNames == false)
+                    {
+                        latin = "<.|.>";
+                    }
+
+                    if (gameMode == "1")
+                    {
+                        Console.WriteLine($"Zadejte název prvku {element}");
+                        //Kontrola odpovědi
+                        string answer = Console.ReadLine();
+                        if (answer.ToLower() == currentElement.ToLower() || answer.ToLower() == answerVariant || answer.ToLower() == latin.ToLower())
+                        {
+                            Console.WriteLine("Správně!");
+                            correctAnsweredQuestions++;
+                        }
+                        else if (answer == "stop")
+                        {
+                            Console.WriteLine("Hra ukončena");
+                            Console.WriteLine("Chcete zpět do výběru? (ano/ne)");
+
+                            string returnToLobby = Console.ReadLine();
+                            if (returnToLobby.ToLower() == "ano" || returnToLobby.ToLower() == "a")
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Hra ukončena");
+                                Console.ReadLine();
+                                end = true;
+                                return;
+                            }
+                        }
+                        else if (latinNames == true)
+                        {
+                            Console.WriteLine($"Špatně, byl to {currentElement}, latinsky {latin}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Špatně, byl to {currentElement}");
+                        }
+                    }
+                    else if (gameMode == "2")
+                    {
+                        Console.WriteLine($"Zadejte značku prvku {currentElement}");
+                        //Kontrola odpovědi
+                        string answer = Console.ReadLine();
+                        if (answer.ToLower() == element.ToLower())
+                        {
+                            Console.WriteLine("Správně!");
+                            correctAnsweredQuestions++;
+                        }
+                        else if (answer == "stop")
+                        {
+                            Console.WriteLine("Hra ukončena");
+                            Console.WriteLine("Chcete zpět do výběru? (ano/ne)");
+
+                            string returnToLobby = Console.ReadLine();
+                            if(returnToLobby.ToLower() == "ano" || returnToLobby.ToLower() == "a")
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Hra ukončena");
+                                Console.ReadLine();
+                                end = true;
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Špatně, byl to {element}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Neplatný herní režim");
+                        Console.ReadLine();
+                        return;
+                    }
+                }
+                //Počet správných odpovědí
+                Console.WriteLine($"Správné odpovědi {correctAnsweredQuestions}/{numberOfQuestions}");
+                Console.ReadLine();
+
+                //Hrát znovu
+                Console.WriteLine("Chcete hrát znovu? (ano/ne)");
+                string playAgain = Console.ReadLine();
+                if(playAgain.ToLower() == "ano" || playAgain.ToLower() == "a")
+                {
+                    end = false;
                 }
                 else
                 {
-                    rnd1 = rnd.Next(0, 39);
+                    end = true;
                 }
 
-                //Výběr prvku a vypsání
-                string currentElement = elementName[rnd1];
-                answerVariant = "<.|.>";
-
-                switch (currentElement)
-                {
-                    case ("Vodík"):
-                        Console.WriteLine("Zadejte název prvku H");
-                        answerVariant = "vodik";
-                        break;
-                    case ("Helium"):
-                        Console.WriteLine("Zadejte název prvku He");
-                        break;
-                    case ("Lithium"):
-                        Console.WriteLine("Zadejte název prvku Li");
-                        break;
-                    case ("Beryllium"):
-                        Console.WriteLine("Zadejte název prvku Be");
-                        break;
-                    case ("Bor"):
-                        Console.WriteLine("Zadejte název prvku B");
-                        break;
-                    case ("Uhlík"):
-                        Console.WriteLine("Zadejte název prvku C");
-                        answerVariant = "uhlik";
-                        break;
-                    case ("Dusík"):
-                        Console.WriteLine("Zadejte název prvku N");
-                        answerVariant = "dusik";
-                        break;
-                    case ("Kyslík"):
-                        Console.WriteLine("Zadejte název prvku O");
-                        answerVariant = "kyslik";
-                        break;
-                    case ("Fluor"):
-                        Console.WriteLine("Zadejte název prvku F");
-                        break;
-                    case ("Neon"):
-                        Console.WriteLine("Zadejte název prvku Ne");
-                        break;
-                    case ("Sodík"):
-                        Console.WriteLine("Zadejte název prvku Na");
-                        answerVariant = "sodik";
-                        break;
-                    case ("Hořčík"):
-                        Console.WriteLine("Zadejte název prvku Mg");
-                        answerVariant = "horcik";
-                        break;
-                    case ("Hliník"):
-                        Console.WriteLine("Zadejte název prvku Al");
-                        answerVariant = "hlinik";
-                        break;
-                    case ("Křemík"):
-                        Console.WriteLine("Zadejte název prvku Si");
-                        answerVariant = "kremik";
-                        break;
-                    case ("Fosfor"):
-                        Console.WriteLine("Zadejte název prvku P");
-                        break;
-                    case ("Síra"):
-                        Console.WriteLine("Zadejte název prvku S");
-                        answerVariant = "sira";
-                        break;
-                    case ("Chlor"):
-                        Console.WriteLine("Zadejte název prvku Cl");
-                        break;
-                    case ("Argon"):
-                        Console.WriteLine("Zadejte název prvku Ar");
-                        break;
-                    case ("Draslík"):
-                        Console.WriteLine("Zadejte název prvku K");
-                        answerVariant = "draslik";
-                        break;
-                    case ("Vápník"):
-                        Console.WriteLine("Zadejte název prvku Ca");
-                        answerVariant = "vapnik";
-                        break;
-                    case ("Gallium"):
-                        Console.WriteLine("Zadejte název prvku Ga");
-                        break;
-                    case ("Germanium"):
-                        Console.WriteLine("Zadejte název prvku Ge");
-                        break;
-                    case ("Arsen"):
-                        Console.WriteLine("Zadejte název prvku As");
-                        break;
-                    case ("Selen"):
-                        Console.WriteLine("Zadejte název prvku Se");
-                        break;
-                    case ("Brom"):
-                        Console.WriteLine("Zadejte název prvku Br");
-                        break;
-                    case ("Krypton"):
-                        Console.WriteLine("Zadejte název prvku Kr");
-                        break;
-                    case ("Rubidium"):
-                        Console.WriteLine("Zadejte název prvku Rb");
-                        break;
-                    case ("Stroncium"):
-                        Console.WriteLine("Zadejte název prvku Sr");
-                        break;
-                    case ("Indium"):
-                        Console.WriteLine("Zadejte název prvku In");
-                        break;
-                    case ("Cín"):
-                        Console.WriteLine("Zadejte název prvku Sn");
-                        answerVariant = "cin";
-                        break;
-                    case ("Antimon"):
-                        Console.WriteLine("Zadejte název prvku Sb");
-                        break;
-                    case ("Tellur"):
-                        Console.WriteLine("Zadejte název prvku Te");
-                        break;
-                    case ("Jod"):
-                        Console.WriteLine("Zadejte název prvku I");
-                        break;
-                    case ("Xenon"):
-                        Console.WriteLine("Zadejte název prvku Xe");
-                        break;
-                    case ("Cesium"):
-                        Console.WriteLine("Zadejte název prvku Cs");
-                        break;
-                    case ("Baryum"):
-                        Console.WriteLine("Zadejte název prvku Ba");
-                        break;
-                    case ("Thallium"):
-                        Console.WriteLine("Zadejte název prvku Tl");
-                        break;
-                    case ("Olovo"):
-                        Console.WriteLine("Zadejte název prvku Pb");
-                        break;
-                    case ("Bismut"):
-                        Console.WriteLine("Zadejte název prvku Bi");
-                        break;
-                    case ("Polonium"):
-                        Console.WriteLine("Zadejte název prvku Po");
-                        break;
-                    case ("Astat"):
-                        Console.WriteLine("Zadejte název prvku At");
-                        break;
-                    case ("Radon"):
-                        Console.WriteLine("Zadejte název prvku Rn");
-                        break;
-                    case ("Francium"):
-                        Console.WriteLine("Zadejte název prvku Fr");
-                        break;
-                    case ("Radium"):
-                        Console.WriteLine("Zadejte název prvku Ra");
-                        break;
-                    case ("Nihonium"):
-                        Console.WriteLine("Zadejte název prvku Nh");
-                        break;
-                    case ("Flerovium"):
-                        Console.WriteLine("Zadejte název prvku Fl");
-                        break;
-                    case ("Moscovium"):
-                        Console.WriteLine("Zadejte název prvku Mc");
-                        break;
-                    case ("Livermorium"):
-                        Console.WriteLine("Zadejte název prvku Lv");
-                        break;
-                    case ("Tennessin"):
-                        Console.WriteLine("Zadejte název prvku Ts");
-                        break;
-                    case ("Oganesson"):
-                        Console.WriteLine("Zadejte název prvku Og");
-                        break;
-                    case ("Železo"):
-                        Console.WriteLine("Zadejte název prvku Fe");
-                        answerVariant = "zelezo";
-                        break;
-                    case ("Kobalt"):
-                        Console.WriteLine("Zadejte název prvku Co");
-                        break;
-                    case ("Nikl"):
-                        Console.WriteLine("Zadejte název prvku Ni");
-                        break;
-                    case ("Měď"):
-                        Console.WriteLine("Zadejte název prvku Cu");
-                        answerVariant = "med";
-                        break;
-                    case ("Stříbro"):
-                        Console.WriteLine("Zadejte název prvku Ag");
-                        answerVariant = "stribro";
-                        break;
-                    case ("Zlato"):
-                        Console.WriteLine("Zadejte název prvku Au");
-                        break;
-                }
-
-                //Kontrola odpovědi
-                string answer = Console.ReadLine();
-                if (answer.ToLower() == currentElement.ToLower() || answer.ToLower() == answerVariant)
-                {
-                    Console.WriteLine("Správně!");
-                    correctAnsweredQuestions++;
-                }
-                else
-                {
-                    Console.WriteLine($"Špatně, byl to {currentElement}");
-                }
-            }
-            Console.WriteLine($"Správné odpovědi {correctAnsweredQuestions}/{numberOfQuestions}");
-            Console.ReadLine();
+            } while (end == false);
         }
     }
 }
